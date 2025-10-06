@@ -12,6 +12,7 @@ import {
   Monitor,
   Moon,
   Sun,
+  History
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +30,7 @@ export default function ChemistryLabProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
-    "Profile" | "Settings" | "Appearance"
+    "Profile" | "Settings" | "History"
   >("Profile");
 
   const [settings, setSettings] = useState({
@@ -124,6 +125,7 @@ useEffect(() => {
           {[
             { name: "Profile", icon: <User className="h-4 w-4" /> },
             { name: "Settings", icon: <Settings className="h-4 w-4" /> },
+            {name: "History", icon: <History className="h-4 w-4" />},
           ].map(({ name, icon }) => (
             <button
               key={name}
@@ -396,6 +398,10 @@ useEffect(() => {
               </button>
             </div>
           </motion.section>
+        )}
+        {/* HISTORY */}
+        {activeTab === "History" && (
+          <motion.div />
         )}
       </main>
     </div>

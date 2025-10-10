@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 export const useExperimentScoring = () => {
   const [score, setScore] = useState(0);
   const [badges, setBadges] = useState<string[]>([]);
-
+  const [level, setLevel] = useState(0)
   const award = (points: number, reason?: string) => {
     setScore(prev => prev + points);
+    console.log("Current Score:", score);
     if (reason) console.log(`Awarded ${points} points: ${reason}`);
   };
 
@@ -17,8 +18,13 @@ export const useExperimentScoring = () => {
     setScore(0);
     setBadges([]);
   };
+  
+  const calculateLevel = (currentScore: number)=>{
+    const newLevel = Math.floor(currentScore / 100);
+    return newLevel;
+  }
 
-  return { score, badges, award, awardBadge, reset };
+  return { score, badges, award, awardBadge, reset, calculateLevel };
 };
 
 export const ExperimentScorePanel: React.FC<{ score: number; badges: string[] }> = ({ score, badges }) => {

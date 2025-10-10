@@ -29,6 +29,7 @@ import {
   History
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useExperimentScoring, { ExperimentScorePanel } from "@/components/ExperimentScoring";
 
 // Editable Field Component
 const EditableField = ({ label, value, field, multiline = false, icon, formData, setFormData, editingField, setEditingField }) => {
@@ -165,6 +166,8 @@ export default function ChemistryLabProfilePage() {
   });
 
   const [gpuType, setGpuType] = useState("unknown");
+  
+  const [level, setLevel] = useState(0);
 
   // GPU Detection
   useEffect(() => {
@@ -199,6 +202,11 @@ export default function ChemistryLabProfilePage() {
       setLoading(false);
     }
   }, [currentUser]);
+  
+   useEffect(()=>{
+      const {score} = useExperimentScoring();
+      setLevel(useExperimentScoring().calculateLevel(score)) 
+   },[]) 
 
   const handleAvatarChange = (e) => {
     const file = e.target.files?.[0];
@@ -214,13 +222,11 @@ export default function ChemistryLabProfilePage() {
     navigate("/lab");
   };
 
-  const level = 4;
-  const nextLevel = level + 1;
-  const progress = 72;
-  const experimentsCompleted = 23;
-  const labHours = 47;
-  const badges = 8;
 
+  const progress = 0;
+  const experimentsCompleted = 0;
+  const labHours = 0;
+  const badges = 0;
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -332,7 +338,7 @@ export default function ChemistryLabProfilePage() {
                   <div className="mt-6 pt-6 border-t">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium text-gray-700">
-                        Progress to Level {nextLevel}
+                        Progress to Level {level}
                       </span>
                       <span className="text-sm font-bold text-indigo-600">{progress}%</span>
                     </div>

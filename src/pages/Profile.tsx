@@ -29,7 +29,8 @@ import {
   History
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import useExperimentScoring, { ExperimentScorePanel } from "@/components/ExperimentScoring";
+import axios from "axios";
+import { useAuth } from '@/hooks/useAuth';
 
 // Editable Field Component
 const EditableField = ({ label, value, field, multiline = false, icon, formData, setFormData, editingField, setEditingField }) => {
@@ -147,7 +148,7 @@ export default function ChemistryLabProfilePage() {
   const auth = getAuth();
   const currentUser = auth.currentUser;
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     displayName: "",
     photoURL: "",
@@ -158,7 +159,7 @@ export default function ChemistryLabProfilePage() {
   const [activeTab, setActiveTab] = useState<
     "Profile" | "Settings" | "History"
   >("Profile");
-
+ 
   const [settings, setSettings] = useState({
     performanceMode: "balanced",
     enableGPUBoost: true,
@@ -167,6 +168,7 @@ export default function ChemistryLabProfilePage() {
 
   const [gpuType, setGpuType] = useState("unknown");
   
+  const [score, setScore] = useState(0)
   const [level, setLevel] = useState(0);
 
   // GPU Detection
@@ -204,9 +206,17 @@ export default function ChemistryLabProfilePage() {
   }, [currentUser]);
   
    useEffect(()=>{
-      const {score} = useExperimentScoring();
-      setLevel(useExperimentScoring().calculateLevel(score)) 
-   },[]) 
+      const getScore = async ()=>{
+        const response = await axios.get(`http://localhost:3000/api/add-experiment/${user.uid}`);
+        console.log(response.data);
+        const userExperimentArray = response.data;
+        const {score} = userExperimentArray[userExperimentArray.length - 1];
+        setScore(score);
+        const newLevel = Math.floor(score / 100);
+        setLevel(newLevel);
+      }
+      getScore();
+   },[])
 
   const handleAvatarChange = (e) => {
     const file = e.target.files?.[0];
@@ -223,7 +233,8 @@ export default function ChemistryLabProfilePage() {
   };
 
 
-  const progress = 0;
+  const progress = score % 100;
+  console.log("Current Score:", score, "Level:", level, "Progress to next level:", progress);
   const experimentsCompleted = 0;
   const labHours = 0;
   const badges = 0;
@@ -338,7 +349,7 @@ export default function ChemistryLabProfilePage() {
                   <div className="mt-6 pt-6 border-t">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium text-gray-700">
-                        Progress to Level {level}
+                        Progress to Level {level+1}
                       </span>
                       <span className="text-sm font-bold text-indigo-600">{progress}%</span>
                     </div>

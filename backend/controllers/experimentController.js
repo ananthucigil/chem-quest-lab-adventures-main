@@ -15,3 +15,16 @@ export const createUserExperiment = async (req, res)=>{
     return res.status(200).json(data);
   }  
 }
+
+export const getUserExperiments = async (req, res)=>{
+  const {userId} = req.params;
+  const { data, error } = await supabase
+    .from("user_experiments")
+    .select("*")
+    .eq("user_id", userId);
+    if(error){
+      return res.status(500).json({message: error.message});
+    }else{
+      return res.status(200).json(data);
+    }
+}    

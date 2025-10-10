@@ -6,6 +6,7 @@ export const useExperimentScoring = () => {
   const [level, setLevel] = useState(0)
   const award = (points: number, reason?: string) => {
     setScore(prev => prev + points);
+    console.log("Current Score:", score);
     if (reason) console.log(`Awarded ${points} points: ${reason}`);
   };
 

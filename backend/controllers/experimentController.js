@@ -6,7 +6,9 @@ export const createUserExperiment = async (req, res)=>{
     .from("user_experiments")
     .insert(experimentData)
     .select();
+
     console.log(data);
+    
   if(error){
     return res.status(500).json({message: error.message});
   }else{

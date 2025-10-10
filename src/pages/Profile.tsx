@@ -90,7 +90,7 @@ const EditableField = ({ label, value, field, multiline = false, icon, formData,
               className="opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <Edit className="h-4 w-4" />
-            </Button>
+            </Button>  
           </div>
         )}
       </CardContent>
@@ -149,11 +149,7 @@ export default function ChemistryLabProfilePage() {
 
   const [formData, setFormData] = useState({
     displayName: "",
-    bio: "",
     photoURL: "",
-    institution: "",
-    location: "",
-    website: "",
   });
 
   const [editingField, setEditingField] = useState(null);
@@ -198,11 +194,7 @@ export default function ChemistryLabProfilePage() {
     if (currentUser) {
       setFormData({
         displayName: currentUser.displayName || "",
-        bio: "",
         photoURL: currentUser.photoURL || "",
-        institution: "",
-        location: "",
-        website: "",
       });
       setLoading(false);
     }
@@ -315,7 +307,6 @@ export default function ChemistryLabProfilePage() {
                           onChange={handleAvatarChange}
                         />
                       </label>
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
                     </div>
                     
                     <div>
@@ -332,9 +323,6 @@ export default function ChemistryLabProfilePage() {
                         </span>
                         <span className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
                           {badges} Badges
-                        </span>
-                        <span className="px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                          Online
                         </span>
                       </div>
                     </div>
@@ -385,7 +373,7 @@ export default function ChemistryLabProfilePage() {
                 />
               </div>
 
-              {/* Personal Information */}
+              {/* Personal Information - Simplified */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -394,59 +382,12 @@ export default function ChemistryLabProfilePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4">
                     <EditableField
                       label="Display Name"
                       value={formData.displayName}
                       field="displayName"
                       icon={<User className="h-4 w-4" />}
-                      formData={formData}
-                      setFormData={setFormData}
-                      editingField={editingField}
-                      setEditingField={setEditingField}
-                    />
-                    
-                    <EditableField
-                      label="Institution"
-                      value={formData.institution}
-                      field="institution"
-                      icon={<BookOpen className="h-4 w-4" />}
-                      formData={formData}
-                      setFormData={setFormData}
-                      editingField={editingField}
-                      setEditingField={setEditingField}
-                    />
-                    
-                    <EditableField
-                      label="Location"
-                      value={formData.location}
-                      field="location"
-                      icon={<MapPin className="h-4 w-4" />}
-                      formData={formData}
-                      setFormData={setFormData}
-                      editingField={editingField}
-                      setEditingField={setEditingField}
-                    />
-                    
-                    <EditableField
-                      label="Website"
-                      value={formData.website}
-                      field="website"
-                      icon={<Globe className="h-4 w-4" />}
-                      formData={formData}
-                      setFormData={setFormData}
-                      editingField={editingField}
-                      setEditingField={setEditingField}
-                    />
-                  </div>
-                  
-                  <div className="mt-4">
-                    <EditableField
-                      label="Bio"
-                      value={formData.bio}
-                      field="bio"
-                      multiline={true}
-                      icon={<Edit className="h-4 w-4" />}
                       formData={formData}
                       setFormData={setFormData}
                       editingField={editingField}
